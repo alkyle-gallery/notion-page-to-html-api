@@ -13,16 +13,9 @@ export default async (request: NowRequest, response: NowResponse): Promise<void 
 
     if (!cover) return response.status(404).send('COVER NOT FOUND');
 
-    const base64 = cover.split(',')[1];
-    const format = cover.split(':')[1].split(';')[0];
-    const img = Buffer.from(base64, 'base64');
-
-    response.writeHead(200, {
-      'Content-Type': format,
-      'Content-length': img.length,
-    });
-
-    response.end(img);
+    // Retourne simplement l'URL du cover
+    response.setHeader('Content-Type', 'text/plain');
+    response.status(200).send(cover);
   } catch (err) {
     switch (err.name) {
       case 'MissingIdError':

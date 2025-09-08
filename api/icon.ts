@@ -11,21 +11,9 @@ export default async (request: NowRequest, response: NowResponse): Promise<void 
     const content = await NotionPageToHtml.convert(url);
     const { icon } = content;
 
-    if (!icon) return response.send(404).send('ICON NOT FOUND');
+    if (!icon) return response.status(404).send('ICON NOT FOUND');
 
-    if (icon.includes('base64')) {
-      const base64 = icon.split(',')[1];
-      const format = icon.split(':')[1].split(';')[0];
-      const img = Buffer.from(base64, 'base64');
-
-      response.writeHead(200, {
-        'Content-Type': format,
-        'Content-length': img.length,
-      });
-
-      return response.end(img);
-    }
-
+    // Retourne simplement l'URL ou l'emoji de l'icon
     response.setHeader('Content-Type', 'text/plain');
     response.status(200).send(icon);
   } catch (err) {
