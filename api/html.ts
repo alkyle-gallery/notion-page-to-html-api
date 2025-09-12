@@ -9,7 +9,7 @@ export default async (request: NowRequest, response: NowResponse): Promise<void 
 
     const url = `https://notion.so/${id}`;
     // Option pour ne plus convertir les images en base64
-    const content = await NotionPageToHtml.convert(url, { convertImagesToBase64: false });
+    const content = await NotionPageToHtml.convert(url, { convertImagesToBase64: true });
     const { html } = content;
 
     response.setHeader('Content-Type', 'text/html');
