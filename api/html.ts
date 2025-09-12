@@ -8,9 +8,10 @@ export default async (request: NowRequest, response: NowResponse): Promise<void 
     if (!id) throw new MissingIdError();
 
     const url = `https://notion.so/${id}`;
-    // Option pour ne plus convertir les images en base64
-    const content = await NotionPageToHtml.convert(url, { convertImagesToBase64: true });
-    const { html } = content;
+    const content = await NotionPageToHtml.convert(url, { convertImagesToBase64: false });
+    // Patch des URLs relatives
+    let html = content.html;
+    html = html.replace(/src="\/image\//g, 'src="https://www.notion.so/image/');
 
     response.setHeader('Content-Type', 'text/html');
     response.status(200).send(html);
