@@ -9,9 +9,9 @@ export default async (request: NowRequest, response: NowResponse): Promise<void 
 
     const url = `https://notion.so/${id}`;
     const content = await NotionPageToHtml.convert(url, { convertImagesToBase64: false });
-    // Patch des URLs relatives
+    // Patch des URLs relatives -> absolues
     let html = content.html;
-    html = html.replace(/src="\/image\//g, 'src="https://www.notion.so');
+    html = html.replace(/src="\/image\//g, 'src="https://www.notion.so/image/');
 
     response.setHeader('Content-Type', 'text/html');
     response.status(200).send(html);
