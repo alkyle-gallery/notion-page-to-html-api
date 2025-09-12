@@ -11,7 +11,7 @@ export default async (request: NowRequest, response: NowResponse): Promise<void 
     const content = await NotionPageToHtml.convert(url, { convertImagesToBase64: false });
     // Patch des URLs relatives
     let html = content.html;
-    html = html.replace(/src="\/image\//g, 'src="https://www.notion.so/image/');
+    html = html.replace(/src="\/image\//g, 'src="https://www.notion.so');
 
     response.setHeader('Content-Type', 'text/html');
     response.status(200).send(html);
